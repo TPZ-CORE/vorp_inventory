@@ -56,7 +56,7 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.deletegun = function(source, id)
-        -- 
+        exports.tpz_inventory:getInventoryAPI().removeWeaponById(source, id)
     end
 
     INV.canCarryWeapons = function(source, amount, cb, weaponName)
