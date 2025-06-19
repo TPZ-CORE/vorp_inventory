@@ -146,11 +146,7 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.setItemMetadata = function(source, itemId, metadata, amount)
-        local result_promise = promise.new()
-        TriggerEvent("vorpCore:setItemMetadata", source, tonumber(itemId), metadata, amount, function(res)
-            result_promise:resolve(res)
-        end)
-        return Citizen.Await(result_promise)
+        -- nothing
     end
 
     INV.subItemID = function(source, id)
@@ -163,12 +159,7 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.getItemContainingMetadata = function(source, itemName, metadata)
-        local item_promise = promise.new()
-        TriggerEvent("vorpCore:getItemContainingMetadata", source, tostring(itemName), metadata,
-            function(responseItem)
-                item_promise:resolve(responseItem)
-            end)
-        return Citizen.Await(item_promise)
+        return false
     end
 
     INV.getItemMatchingMetadata = function(source, itemName, metadata)
