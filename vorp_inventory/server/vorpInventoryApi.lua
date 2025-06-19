@@ -174,7 +174,7 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.OpenInv = function(source, invId)
-        --InventoryAPI.openInventory(source, invId)
+        TriggerClientEvent("tpz_inventory:openInventoryContainerById", source, invId, "#" .. invId)
     end
 
     return INV
