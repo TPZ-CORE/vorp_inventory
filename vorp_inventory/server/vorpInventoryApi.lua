@@ -52,24 +52,16 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.createWeapon = function(source, weaponName, ammoaux, compaux, comps, custom_serial, custom_label, custom_desc)
-        local result_promise = promise.new()
-        TriggerEvent("vorpCore:registerWeapon", source, tostring(string.upper(weaponName)), ammoaux, compaux, comps,
-            function(res)
-                result_promise:resolve(res)
-            end, nil, custom_serial, custom_label, custom_desc)
-        return Citizen.Await(result_promise)
+        exports.tpz_inventory:getInventoryAPI().addWeapon(source, weaponName, custom_serial )
     end
 
     INV.deletegun = function(source, id)
-        local result_promise = promise.new()
-        TriggerEvent("vorpCore:deletegun", source, tonumber(id), function(res)
-            result_promise:resolve(res)
-        end)
-        return Citizen.Await(result_promise)
+        -- 
     end
 
     INV.canCarryWeapons = function(source, amount, cb, weaponName)
-        TriggerEvent("vorpCore:canCarryWeapons", source, amount, cb, weaponName)
+        local canCarry = exports.tpz_inventory:getInventoryAPI().canCarryWeapon(source, weaponName)
+        return canCarry
     end
 
     INV.getcomps = function(source, weaponid)
