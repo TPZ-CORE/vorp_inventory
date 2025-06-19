@@ -393,17 +393,12 @@ exports("getItemMatchingMetadata", InventoryAPI.getItemMatchingMetadata)
 ---@param name string item name
 ---@param amount number
 ---@param metadata table metadata
----@param allow boolean? allow to detect item creation false means allow true meand dont allow
----@param degradation number? used for internal purposes moveToPlayer takeFromPlayer its a timestamp items are being exchanged
----@param percentage number? used for internal purposes for synscripts to support degradation
----@param cb fun(success: boolean)? async or sync callback
 function InventoryAPI.addItem(source, name, amount, metadata, cb, allow, degradation, percentage)
 	local _source = source
-
+	exports.tpz_inventory:getInventoryAPI().addItem(source, name, amount, metadata)
 end
 
 exports("addItem", InventoryAPI.addItem)
-
 
 --- get item by its main id
 ---@param player number source
