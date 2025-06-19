@@ -68,23 +68,8 @@ end
 
 ---private function to check if item exist
 function InventoryAPI.canCarryAmountItem(player, amount, cb)
-	local _source = player
-	local character = Core.getUser(_source)
-	if not character then return respond(cb, false) end
-	character = character.getUsedCharacter
-	local userInventory = UsersInventories.default[character.identifier]
-
-	if not userInventory then
-		return respond(cb, false)
-	end
-
-	local function cancarryammount()
-		local totalAmount = InventoryAPI.getUserTotalCountItems(character.identifier, character.charIdentifier)
-		local totalAmountWeapons = InventoryAPI.getUserTotalCountWeapons(character.identifier, character.charIdentifier, true)
-		return character.invCapacity ~= -1 and totalAmount + totalAmountWeapons <= character.invCapacity
-	end
-
-	return respond(cb, cancarryammount())
+	-- nothing
+	return respond(cb, false)
 end
 
 ---@deprecated
@@ -96,40 +81,7 @@ exports("canCarryItems", InventoryAPI.canCarryAmountItem)
 ---@param amount number amount of item
 ---@param cb fun(canCarry: boolean)? async or sync callback
 function InventoryAPI.canCarryItem(target, itemName, amount, cb)
-	local user = Core.getUser(target)
-	if not user then
-		return respond(cb, false)
-	end
-
-	local function exceedsItemLimit(identifier, limit)
-		local items = SvUtils.FindAllItemsByName("default", identifier, itemName)
-		local count = 0
-		for _, item in pairs(items) do
-			count = count + item:getCount()
-		end
-		return count + amount > limit
-	end
-
-	local function exceedsInvLimit(identifier, charIdentifier, limit, itemWeight)
-		local totalAmount = InventoryAPI.getUserTotalCountItems(identifier, charIdentifier)
-		local totalAmountWeapons = InventoryAPI.getUserTotalCountWeapons(identifier, charIdentifier, true)
-		itemWeight = itemWeight * amount
-		return limit ~= -1 and totalAmount + totalAmountWeapons + itemWeight > limit
-	end
-
-	local character = user.getUsedCharacter
-	local canCarry = false
-
-	local svItem = SvUtils.DoesItemExist(itemName, "InventoryAPI.canCarryItem")
-	if not svItem then
-		return respond(cb, false)
-	end
-
-	if svItem.limit ~= -1 and not exceedsItemLimit(character.identifier, svItem.limit) then
-		canCarry = not exceedsInvLimit(character.identifier, character.charIdentifier, character.invCapacity, svItem.weight)
-	elseif svItem.limit == -1 then
-		canCarry = true
-	end
+	local canCarry = exports.tpz_inventory:getInventoryAPI().canCarryItem(target, itemName, amount)
 
 	return respond(cb, canCarry)
 end
@@ -266,26 +218,7 @@ exports("getItemByName", InventoryAPI.getItemByName)
 ---@param cb fun(item: table | nil)? async or sync callback
 ---@return table | nil
 function InventoryAPI.getItemContainingMetadata(player, itemName, metadata, cb)
-	local _source = player
-	local sourceCharacter = Core.getUser(_source)
-
-	if not sourceCharacter then
-		return respond(cb, nil)
-	end
-
-	sourceCharacter = sourceCharacter.getUsedCharacter
-	local identifier = sourceCharacter.identifier
-
-	if not SvUtils.DoesItemExist(itemName, "getItemContainingMetadata") then
-		return respond(cb, nil)
-	end
-
-	local item = SvUtils.FindItemByNameAndContainingMetadata("default", identifier, itemName, metadata)
-
-	if not item then
-		return respond(cb, nil)
-	end
-
+ -- nothing??
 	return respond(cb, item)
 end
 
@@ -299,27 +232,7 @@ exports("getItemContainingMetadata", InventoryAPI.getItemContainingMetadata)
 ---@param cb fun(item: table | nil)? async or sync callback
 function InventoryAPI.getItemMatchingMetadata(player, itemName, metadata, cb)
 	local _source = player
-	local sourceCharacter = Core.getUser(_source)
-
-	if not sourceCharacter then
-		return respond(cb, nil)
-	end
-
-	sourceCharacter = sourceCharacter.getUsedCharacter
-	local identifier = sourceCharacter.identifier
-
-	local svItem = SvUtils.DoesItemExist(itemName, "getItemContainingMetadata")
-	if not svItem then
-		return respond(cb, nil)
-	end
-
-	metadata = SharedUtils.MergeTables(svItem.metadata or {}, metadata or {})
-	local item = SvUtils.FindItemByNameAndMetadata("default", identifier, itemName, metadata)
-
-	if not item then
-		return respond(cb, nil)
-	end
-
+	-- nothing?
 	return respond(cb, item)
 end
 
