@@ -238,19 +238,13 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.canCarryItems = function(source, amount)
-        local can_promise = promise.new()
-        TriggerEvent("vorpCore:canCarryItems", source, amount, function(data)
-            can_promise:resolve(data)
-        end)
-        return Citizen.Await(can_promise)
+        local canCarryWeight = exports.tpz_inventory:getInventoryAPI().canCarryWeight(source, amount)
+        return canCarryWeight 
     end
 
     INV.canCarryItem = function(source, item, amount)
-        local can_promise = promise.new()
-        TriggerEvent("vorpCore:canCarryItem", source, item, amount, function(data)
-            can_promise:resolve(data)
-        end)
-        return Citizen.Await(can_promise)
+        local canCarryItem = exports.tpz_inventory:getInventoryAPI().canCarryItem(source, item, amount)
+        return canCarryItem 
     end
 
     INV.RegisterUsableItem = function(itemName, cb)
@@ -259,7 +253,6 @@ exports('vorp_inventoryApi', function()
 
     INV.getUserInventory = function(source)
         local contents = exports.tpz_inventory:getInventoryAPI().getInventoryContents(source)
-
         return contents 
     end
 
