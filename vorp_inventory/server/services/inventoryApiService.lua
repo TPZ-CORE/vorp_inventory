@@ -63,13 +63,7 @@ local function respond(cb, result)
 end
 
 local function checkMetadataImage(source, metadata)
-	if metadata and next(metadata) and metadata.image and type(metadata.image) == "string" then
-		local image = {
-			[metadata.image] = metadata.image
-		}
-		local packedImage = msgpack.pack(image) -- just to reuse the event
-		TriggerClientEvent("vorp_inventory:server:CacheImages", source, packedImage)
-	end
+	-- nothing
 end
 
 ---private function to check if item exist
