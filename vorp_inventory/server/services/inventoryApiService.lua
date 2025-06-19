@@ -186,32 +186,10 @@ exports("getUserInventoryItems", InventoryAPI.getInventory)
 ---@param name string item name
 ---@param cb function callback
 function InventoryAPI.registerUsableItem(name, cb, resource)
-	if Config.Debug then
-		SetTimeout(9000, function()
-			print("Callback for item[^3" .. name .. "^7] ^2Registered!^7")
-		end)
-	end
 
-	if not name then
-		return print("InventoryAPI.registerUsableItem: name is required")
-	end
+	if resource == nil then resource = "vorp_inventory" end 
 
-	-- this is just to help users see whats wrong with their items and to fix them
-	SetTimeout(20000, function()
-		if not ServerItems[name] then
-			print("^3Warning^7: item ", name, " was added as usabled but ^1 does not exist in database ^7", resource or "")
-		end
-
-		if ServerItems[name] and not ServerItems[name].canUse then
-			print("^3Warning^7: item", name, " is not usable in database , ^1 you need to set usable to 1 in database ^7", resource or "")
-		end
-	end)
-
-	if UsableItemsFunctions[name] then
-		print("^3Warning^7: item ", name, " is already registered, ^1 cant register the same item twice ^7", resource or "")
-		print("^5Info:^7 if you restarting a script this is normal and you can ignore it!.^7")
-	end
-	UsableItemsFunctions[name] = cb
+	exports.tpz_inventory:getInventoryAPI().registerUsableItem(name, resource, cb)
 end
 
 exports("registerUsableItem", InventoryAPI.registerUsableItem)
@@ -219,9 +197,7 @@ exports("registerUsableItem", InventoryAPI.registerUsableItem)
 ---to use when stopping your resource that registers the usable item
 ---@param name string | table item name or table of item names
 function InventoryAPI.unRegisterUsableItem(name)
-	if UsableItemsFunctions[name] then
-		UsableItemsFunctions[name] = nil
-	end
+	exports.tpz_inventory:getInventoryAPI().unRegisterUsableItem(name)
 end
 
 exports("unRegisterUsableItem", InventoryAPI.unRegisterUsableItem)
