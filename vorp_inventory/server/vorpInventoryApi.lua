@@ -160,19 +160,11 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.addItem = function(source, itemName, qty, metadata)
-        local result_promise = promise.new()
-        TriggerEvent("vorpCore:addItem", source, tostring(itemName), tonumber(qty), metadata, function(res)
-            result_promise:resolve(res)
-        end)
-        return Citizen.Await(result_promise)
+        exports.tpz_inventory:getInventoryAPI().addItem(source, itemName, qty, metadata)
     end
 
     INV.subItem = function(source, itemName, qty, metadata)
-        local result_promise = promise.new()
-        TriggerEvent("vorpCore:subItem", source, tostring(itemName), tonumber(qty), metadata, function(res)
-            result_promise:resolve(res)
-        end)
-        return Citizen.Await(result_promise)
+        exports.tpz_inventory:getInventoryAPI().removeItem(source, itemName, qty)
     end
 
     INV.setItemMetadata = function(source, itemId, metadata, amount)
@@ -184,19 +176,12 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.subItemID = function(source, id)
-        local result_promise = promise.new()
-        TriggerEvent("vorpCore:subItemID", source, id, function(res)
-            result_promise:resolve(res)
-        end)
-        return Citizen.Await(result_promise)
+        exports.tpz_inventory:getInventoryAPI().removeItemById(source, id) 
     end
 
     INV.getItemByName = function(source, itemName)
-        local item_promise = promise.new()
-        TriggerEvent("vorpCore:getItemByName", source, tostring(itemName), function(responseItem)
-            item_promise:resolve(responseItem)
-        end)
-        return Citizen.Await(item_promise)
+        local itemData = exports.tpz_inventory:getInventoryAPI().getItemData(item)
+        return itemData
     end
 
     INV.getItemContainingMetadata = function(source, itemName, metadata)
@@ -209,32 +194,18 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.getItemMatchingMetadata = function(source, itemName, metadata)
-        local item_promise = promise.new()
-        TriggerEvent("vorpCore:getItemMatchingMetadata", source, tostring(itemName), metadata, function(responseItem)
-            item_promise:resolve(responseItem)
-        end)
-        return Citizen.Await(item_promise)
+        return nil
     end
 
     INV.getItemCount = function(source, item, metadata)
-        local count_promise = promise.new()
-        TriggerEvent("vorpCore:getItemCount", source, function(itemcount)
-            count_promise:resolve(itemcount)
-        end, item, metadata)
-        return Citizen.Await(count_promise)
+        local count = exports.tpz_inventory:getInventoryAPI().getItemQuantity(source, item)
+        return count 
     end
 
-    INV.getDBItem = function(target, itemName)
-        local query = "SELECT * FROM items WHERE item= @item;"
-        local params = { item = itemName }
-        local itemDBTable = dbQuery(query, params)
-
-        if not itemDBTable[1] then
-            print('Item does not exist in Items table. Item:' .. itemName)
-            return nil
-        end
-
-        return itemDBTable[1]
+    INV.getDBItem = function(source, item)
+        -- source is pointless, no need. 
+        local itemData = exports.tpz_inventory:getInventoryAPI().getItemData(item)
+        return itemData 
     end
 
     INV.canCarryItems = function(source, amount)
