@@ -354,23 +354,9 @@ exports("subItemById", InventoryAPI.subItemID)
 ---@return boolean
 function InventoryAPI.subItem(source, name, amount, metadata, cb, allow, percentage)
 	local _source <const> = source
-	local sourceCharacter = Core.getUser(_source)
-
-	if not sourceCharacter then
-		return respond(cb, false)
-	end
-
-	local svItem <const> = SvUtils.DoesItemExist(name, "subItem")
-	if not svItem then
-		return respond(cb, false)
-	end
-
-	sourceCharacter = sourceCharacter.getUsedCharacter
-	local identifier <const> = sourceCharacter.identifier
-
-	local userInventory <const> = CustomInventoryInfos.default.shared and UsersInventories.default or UsersInventories.default[identifier]
-	if not userInventory then
-		return respond(cb, false)
+	
+		exports.tpz_inventory:getInventoryAPI().removeItem(_source, name, amount)
+		return respond(cb, true)
 	end
 
 	--* for items with metadata only
