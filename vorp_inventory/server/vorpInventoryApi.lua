@@ -19,36 +19,36 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.removeInventory = function(...)
-        TriggerEvent("vorpCore:removeInventory", ...)
+        --
     end
 
     INV.BlackListCustomAny = function(...)
-        TriggerEvent("vorp_inventory:Server:BlackListCustom", ...)
+        --
     end
 
     INV.AddPermissionMoveToCustom = function(...)
-        TriggerEvent("vorp_inventory:Server:AddPermissionMoveToCustom", ...)
+        --
     end
 
     INV.AddPermissionTakeFromCustom = function(...)
-        TriggerEvent("vorp_inventory:Server:AddPermissionTakeFromCustom", ...)
+        --
     end
 
     INV.setInventoryItemLimit = function(...)
-        TriggerEvent("vorpCore:setInventoryItemLimit", ...)
+        --
     end
 
     INV.setInventoryWeaponLimit = function(...)
-        TriggerEvent("vorpCore:setInventoryWeaponLimit", ...)
+        --
     end
 
     INV.updateCustomInventorySlots = function(...)
-        TriggerEvent("vorp_inventory:Server:updateCustomInventorySlots", ...)
+        --
     end
 
     -- * WEAPONS * --
     INV.subWeapon = function(source, weaponid)
-        TriggerEvent("vorpCore:subWeapon", source, tonumber(weaponid))
+        exports.tpz_inventory:getInventoryAPI().removeWeaponById(source, weaponid)
     end
 
     INV.createWeapon = function(source, weaponName, ammoaux, compaux, comps, custom_serial, custom_label, custom_desc)
