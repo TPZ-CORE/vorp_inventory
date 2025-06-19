@@ -160,7 +160,7 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.RegisterUsableItem = function(itemName, cb)
-        TriggerEvent("vorpCore:registerUsableItem", itemName, cb)
+        exports.tpz_inventory:getInventoryAPI().registerUsableItem(itemName, "vorp", cb)
     end
 
     INV.getUserInventory = function(source)
@@ -174,7 +174,7 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.OpenInv = function(source, invId)
-        InventoryAPI.openInventory(source, invId)
+        --InventoryAPI.openInventory(source, invId)
     end
 
     return INV
