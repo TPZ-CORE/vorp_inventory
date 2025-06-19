@@ -219,7 +219,7 @@ exports("getItemCount", InventoryAPI.getItemCount)
 ---@param cb fun(item: table | nil)? async or sync callback
 ---@return table | nil
 function InventoryAPI.getItemDB(itemName, cb)
-	local svItem = SvUtils.DoesItemExist(itemName, "getItemDB")
+	local svItem = exports.tpz_inventory:getInventoryAPI().getItemData(itemName)
 	return respond(cb, svItem)
 end
 
