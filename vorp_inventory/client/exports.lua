@@ -1,46 +1,46 @@
 -- exports
 
 exports('closeInventory', function()
-    return NUIService.CloseInv()
+    TriggerEvent('tpz_inventory:closePlayerInventory')
 end)
 
 exports('getWeaponDefaultWeight', function(hash)
-    return Utils.GetWeaponDefaultWeight(hash)
+    return 0
 end)
 
 exports('getWeaponDefaultDesc', function(hash)
-    return Utils.GetWeaponDefaultDesc(hash)
+    return ""
 end)
 
 exports('getWeaponDefaultLabel', function(hash)
-    return Utils.GetWeaponDefaultLabel(hash)
+    return ""
 end)
 
 exports('getWeaponName', function(hash)
-    return Utils.GetWeaponName(hash)
+    return ""
 end)
 
 exports('getWeaponsDefaultData', function(request)
-    return Utils.GetWeaponsDefaultData(request)
+    return {}
 end)
 
 exports('getWeaponAmmoTypes', function(group)
-    return SharedData.AmmoTypes[group]
+    return {}
 end)
 
 exports('getAmmoLabel', function(ammo)
-    return Utils.GetAmmoLabel(ammo)
+    return ""
 end)
 
 exports('getInventoryItem', function(name)
-    return Utils.GetInventoryItem(name)
+    return ""
 end)
 
 exports('getInventoryItems', function()
-    return Utils.GetInventoryItems()
+    return ""
 end)
 
 -- get items data from client side, like label, weight, description, etc
 exports("getItemData", function(data)
-    return Utils.GetItemData(data)
+    return {}
 end)
