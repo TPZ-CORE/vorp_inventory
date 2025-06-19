@@ -258,18 +258,14 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.getUserInventory = function(source)
-        local inventory_promise = promise.new()
-        TriggerEvent("vorpCore:getUserInventory", source, function(invent)
-            inventory_promise:resolve(invent)
-        end)
-        return Citizen.Await(inventory_promise)
+        local contents = exports.tpz_inventory:getInventoryAPI().getInventoryContents(source)
+
+        return contents 
     end
 
     INV.CloseInv = function(source, invId)
-        if invId then
-            return TriggerEvent("vorpCore:closeCustomInventory", source, invId)
-        end
-        TriggerClientEvent("vorp_inventory:CloseInv", source)
+        TriggerClientEvent('tpz_inventory:closePlayerInventory', source)
+        -- no need invId, its closing both. 
     end
 
     INV.OpenInv = function(source, invId)
