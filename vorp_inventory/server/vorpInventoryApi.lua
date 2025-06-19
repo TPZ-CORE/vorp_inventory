@@ -2,20 +2,6 @@
 exports('vorp_inventoryApi', function()
     local INV = {}
 
-    local dbQuery = function(query, params)
-        local query_promise = promise.new()
-
-        params = params or {}
-
-        local on_result = function(result)
-            query_promise:resolve(result)
-        end
-
-        MySQL.query(query, params, on_result)
-
-        return Citizen.Await(query_promise)
-    end
-
     INV.registerInventory = function(id, name, limit, acceptWeapons, shared, ignoreItemStackLimit, whitelistItems, UsePermissions, UseBlackList, whitelistWeapons)
         local data = {
             id = id,
@@ -99,27 +85,19 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.addBullets = function(source, weaponId, type, qty)
-        TriggerEvent("vorpCore:addBullets", source, weaponId, type, qty)
+        -- nothing
     end
 
     INV.subBullets = function(source, weaponId, type, qty)
-        TriggerEvent("vorpCore:subBullets", source, weaponId, type, qty)
+        -- nothing
     end
 
     INV.getWeaponBullets = function(source, weaponId)
-        local bullets_promise = promise.new()
-        TriggerEvent("vorpCore:getWeaponBullets", source, function(bullets)
-            bullets_promise:resolve(bullets)
-        end, weaponId)
-        return Citizen.Await(bullets_promise)
+        return 0
     end
 
     INV.getWeaponComponents = function(source, weaponId)
-        local components_promise = promise.new()
-        TriggerEvent("vorpCore:getWeaponComponents", source, function(components)
-            components_promise:resolve(components)
-        end, weaponId)
-        return Citizen.Await(components_promise)
+        -- nothing
     end
 
     INV.getUserWeapons = function(source)
@@ -139,7 +117,7 @@ exports('vorp_inventoryApi', function()
     end
 
     INV.removeAllUserAmmo = function(source)
-        TriggerEvent("vorpinventory:removeammo", source)
+        -- nothing
     end
 
     -- * ITEMS * --
