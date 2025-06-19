@@ -207,40 +207,7 @@ exports("unRegisterUsableItem", InventoryAPI.unRegisterUsableItem)
 function InventoryAPI.getItemCount(source, cb, itemName, metadata, percentage)
 	local _source <const> = source
 
-	if not _source then
-		error("InventoryAPI.getItemCount: specify a source")
-		return respond(cb, 0)
-	end
-
-	local svItem <const> = SvUtils.DoesItemExist(itemName, "getItemCount")
-	if not svItem then
-		return respond(cb, 0)
-	end
-
-	local user <const> = Core.getUser(_source)
-	if not user then
-		return respond(cb, 0)
-	end
-
-	local identifier <const> = user.getUsedCharacter.identifier
-
-
-	local userInventory <const> = UsersInventories.default[identifier]
-	if not userInventory then
-		return respond(cb, 0)
-	end
-
-	if metadata then
-		metadata = SharedUtils.MergeTables(svItem.metadata, metadata or {})
-		--if metadata then get only the item that matches the metadata we are looking for
-		local item <const> = SvUtils.FindItemByNameAndMetadata("default", identifier, itemName, metadata)
-		if item then return respond(cb, item:getCount()) end
-		return respond(cb, 0)
-	end
-
-	-- get count of all items but can choose to get expired items, by default will only get normal items
-	-- it will also return items with metadata because people use this export to get them when it doesnt even make sense they are unique items
-	local itemTotalCount <const> = SvUtils.GetItemCount("default", identifier, itemName, percentage)
+	local itemTotalCount = exports.tpz_inventory:getInventoryAPI().getItemQuantity(_source, itemName)
 
 	return respond(cb, itemTotalCount)
 end
