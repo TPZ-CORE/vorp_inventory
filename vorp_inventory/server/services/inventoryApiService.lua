@@ -68,7 +68,7 @@ end
 
 ---private function to check if item exist
 function InventoryAPI.canCarryAmountItem(player, amount, cb)
-	-- nothing
+	-- todo nothing, this is for item limit but we use weight only.
 	return respond(cb, false)
 end
 
@@ -92,37 +92,8 @@ exports("canCarryItem", InventoryAPI.canCarryItem)
 ---@param source number source
 ---@param cb fun(items: table)? async or sync callback
 function InventoryAPI.getInventory(source, cb)
-	local sourceCharacter = Core.getUser(source)
-	if not sourceCharacter then
-		return respond(cb, nil)
-	end
-	sourceCharacter = sourceCharacter.getUsedCharacter
-	local identifier = sourceCharacter.identifier
-	local userInventory = UsersInventories.default[identifier]
-
-	if userInventory then
-		local playerItems = {}
-
-		for _, item in pairs(userInventory) do
-			-- for existing scripts we need to check if labels and descriptions exist in metadata to avoid showing the default ones
-			local newItem = {
-				id = item:getId(),
-				label = item.metadata?.label or item:getLabel(),
-				name = item:getName(),
-				desc = item.metadata?.description or item:getDesc(),
-				metadata = item:getMetadata(), -- this contains label descriptions image weight tooltip as reserved keys
-				type = item:getType(),
-				count = item:getCount(),
-				limit = item:getLimit(),
-				canUse = item:getCanUse(),
-				group = item:getGroup(),
-				weight = item.metadata?.weight or item:getWeight(),
-				percentage = item:getPercentage(),
-				isDegradable = item:getMaxDegradation() ~= 0
-			}
-			table.insert(playerItems, newItem)
-		end
-		return respond(cb, playerItems)
+	local contents = exports.tpz_inventory:getInventoryAPI().getInventoryContents(source)
+		return respond(cb, contents)
 	end
 end
 
